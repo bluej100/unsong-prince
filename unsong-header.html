@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Unsong</title>
+<style>
+body {
+	font-size: 12pt;
+	font-family: "Lora", "Garamond Premier Pro", "Adobe Garamond Pro", "Garamond";
+	text-align: justify;
+}
+h1, h2, h3 {
+	text-align: center;
+	font-family: "Open Sans", Lumos;
+	text-transform: uppercase;
+}
+p {
+  margin: 0.6em 0;
+}
+p.credits {
+	text-align: center;
+	font-family: "Open Sans", Lumos;
+}
+a {
+  text-decoration-style: dashed;
+	color: #000;
+}
+hr, div.sep {
+	border-top: 1px solid #888888;
+	line-height: 0;
+	margin: 1em auto;
+	width: 10em;
+}
+#toc {
+	list-style-type: none;
+	padding: 0;
+	width: 25em;
+	margin: 0 auto;
+}
+#toc a {
+	text-decoration: none;
+}
+
+@media print {
+	body {
+		display: block;
+		counter-reset: page 1
+	}
+	@page {
+		size: 6in 9in;
+	}
+	@page:left {margin: 0.875in 0.75in 0.875in 0.625in;}
+	@page:right {margin: 0.875in 0.625in 0.875in 0.75in;}
+
+	@page:first {
+		margin-top: 2in;
+	}
+	@page chapter {
+		@top {
+			content: string(chapter-title);
+			font-family: "Open Sans", "Lumos";
+			text-transform: uppercase;
+		}
+		@bottom {
+			content: counter(page);
+			font-family: "Open Sans", "Lumos";
+		}
+	}
+	@page chapter:right {
+		@top {
+			content: string(chapter-title);
+		}
+	}
+	article {
+		page: chapter;
+	}
+	article h2 {
+		string-set: chapter-title content();
+	}
+	h2 {
+		page-break-before: always;
+	}
+	#toc a::after { content: leader(".") target-counter(attr(href), page); }
+}
+</style>
+<script>
+window.onload = function() {
+	var chapterTitles = document.getElementsByTagName('h2');
+	var ol = document.createElement('ol');
+	ol.id = 'toc';
+	document.body.insertBefore(ol, document.getElementsByTagName('h2')[0].parentNode);
+	for (var i = 0; i < chapterTitles.length; i++) {
+		var title = chapterTitles[i];
+		var li = document.createElement('li');
+		var a = document.createElement('a');
+		var chapter = title.id;
+		a.setAttribute('href', '#'+chapter);
+		a.appendChild(document.createTextNode(title.firstChild.nodeValue));
+		li.appendChild(a);
+		ol.appendChild(li);
+	}
+	var header = document.createElement('h2');
+	header.appendChild(document.createTextNode('Contents'));
+	document.body.insertBefore(header, ol);
+}
+</script>
+</head>
+<body>
+<h1><img src="http://i.imgur.com/d9LvKMc.png" alt="Unsong" /></h1>
+<p class="credits">by Scott Alexander</p>
